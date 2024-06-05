@@ -1,3 +1,6 @@
+import 'package:database_benchmark/benchmark/benchmark_runner.dart';
+import 'package:database_benchmark/benchmark/benchmark_type.dart';
+import 'package:database_benchmark/database/database.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -43,40 +46,106 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  final runner = BenchmarkRunner();
+  final amountController = TextEditingController(text: '1000');
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  BenchmarkType _selectedBenchmark = BenchmarkType.values[0];
+  bool _isRunning = false;
+  final benchmarkResult = <Database, RunnerResult>{};
 
   @override
   Widget build(BuildContext context) {
+    final result = benchmarkResult[Database.hive] == null ? 'no result' : benchmarkResult[Database.hive]!.value;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(25),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField(
+                    value: _selectedBenchmark,
+                    decoration: const InputDecoration(
+                      label: Text('Benchmark Type'),
+                      border: OutlineInputBorder(),
+                    ),
+                    items: [
+                      for (var benchmark in BenchmarkType.values)
+                        DropdownMenuItem(
+                          value: benchmark,
+                          child: Text(benchmark.name),
+                        )
+                    ],
+                    onChanged: (BenchmarkType? value) {
+                      setState(() {
+                        if (value != null) {
+                          _selectedBenchmark = value;
+                        }
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  width: 15,
+                ),
+                Expanded(
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      label: Text('Amount of Entries'),
+                      border: OutlineInputBorder(),
+                    ),
+                    controller: amountController,
+                  ),
+                )
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            const SizedBox(
+              height: 15,
             ),
+            ElevatedButton(
+              onPressed: _isRunning ? null : _runBenchmark,
+              child: const Text('LET\'S GO!'),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Text('result = $result'),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void _runBenchmark() {
+    setState(() {
+      _isRunning = true;
+    });
+    int amountOfObjects = 0;
+    try {
+      amountOfObjects = int.parse(amountController.text);
+    } catch (e) {
+      const snackBar = SnackBar(
+        content: Text('Please enter a number in the "Amount of Entries" field'),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+
+    final stream = runner.runBenchmark(_selectedBenchmark, amountOfObjects);
+    stream.listen((event) {
+      setState(() {
+        benchmarkResult[event.database] = event;
+      });
+    }).onDone(() {
+      setState(() {
+        _isRunning = false;
+      });
+    });
   }
 }

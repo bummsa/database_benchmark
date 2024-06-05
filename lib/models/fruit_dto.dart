@@ -31,10 +31,10 @@ class FruitDto extends Dto {
   @override
   Map<String, dynamic> toJson() => _$FruitDtoToJson(this);
 
-  static List<Dto> generateDtos(int count) {
-    final result = <Dto>[];
+  static List<FruitDto> generateDtos(int count) {
+    final result = <FruitDto>[];
 
-    final listSize = count == 1 ? 1 : (count / 2) as int;
+    final listSize = count == 1 ? 1 : (count / 2).round();
     final descriptions = generateDescriptions(listSize);
 
     for (int i = 0; i < count; i++) {
