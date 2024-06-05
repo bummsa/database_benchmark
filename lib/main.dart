@@ -1,6 +1,7 @@
 import 'package:database_benchmark/benchmark/benchmark_runner.dart';
 import 'package:database_benchmark/benchmark/benchmark_type.dart';
 import 'package:database_benchmark/database/database.dart';
+import 'package:database_benchmark/ui/result_container.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -55,7 +56,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final result = benchmarkResult[Database.hive] == null ? 'no result' : benchmarkResult[Database.hive]!.value;
+    final result = benchmarkResult[Database.hive] == null
+        ? 'no result'
+        : benchmarkResult[Database.hive]!.value;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -115,7 +118,21 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 15,
             ),
-            Text('result = $result'),
+            Flexible(
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: benchmarkResult.isNotEmpty
+                    ? ResultContainer(
+                        results: benchmarkResult.values.toList(),
+                        objectCount: int.parse(
+                          amountController.value.text,
+                        ),
+                      )
+                    : const Center(
+                        child: Text('No results yet.'),
+                      ),
+              ),
+            ),
           ],
         ),
       ),
