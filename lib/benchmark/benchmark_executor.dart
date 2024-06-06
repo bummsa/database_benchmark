@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:database_benchmark/benchmark/impl/hive_executor.dart';
-import 'package:database_benchmark/benchmark/impl/objectbox_executor.dart';
+import 'package:database_benchmark/benchmark/impl/objectbox/objectbox_executor.dart';
 import 'package:database_benchmark/database/database.dart';
 import 'package:database_benchmark/models/fruit_dto.dart';
 

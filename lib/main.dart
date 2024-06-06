@@ -5,6 +5,10 @@ import 'package:database_benchmark/ui/result_container.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  // This is required so ObjectBox can get the application directory
+  // to store the database in.
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -56,9 +60,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final result = benchmarkResult[Database.hive] == null
-        ? 'no result'
-        : benchmarkResult[Database.hive]!.value;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,

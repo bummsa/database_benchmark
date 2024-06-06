@@ -49,20 +49,6 @@ class HiveRunner extends BenchmarkExecutor {
         return _fillDb(models);
       },
     );
-
-    // await prepareDatabase();
-
-    // final watch = Stopwatch()..start();
-    // final box = await Hive.openBox('testBox');
-
-    // for (int i = 0; i < models.length; i++) {
-    //   await box.put(i, models[i].toJson());
-    // }
-
-    // await box.close();
-    // watch.stop();
-
-    // yield watch.elapsedMilliseconds;
   }
 
   Future<void> _fillDb(List<FruitDto> models) async {

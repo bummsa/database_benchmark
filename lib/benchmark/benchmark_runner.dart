@@ -22,6 +22,8 @@ class BenchmarkRunner {
             .map((event) => RunnerResult(database, benchmark, event));
       } catch (e) {
         print("error $e");
+      } finally {
+        await executor.tearDown();
       }
     }
   }
