@@ -55,14 +55,25 @@ class ObjectBoxExecutor extends BenchmarkExecutor {
       },
       benchmark: (db) async {
         // testing if the DTO can be used directly
-        final mappedModels = models
-            .map(
-              (e) => FruitDtoForObjectBox.fromJson(e.toJson()),
-            )
-            .toList();
+        final mappedModels = mapToObjectBox(models);
         for (int i = 0; i < mappedModels.length; i++) {
           _fruitBox!.put(mappedModels[i]);
         }
+        return Future.value();
+      },
+    );
+  }
+
+  @override
+  Stream<int> bulkInsert(List<FruitDto> models) {
+    return runBenchmark(
+      db: this,
+      prepareDb: (db) {
+        return prepareDatabase();
+      },
+      benchmark: (db) async {
+        _fruitBox!.putMany(mapToObjectBox(models));
+
         return Future.value();
       },
     );
@@ -78,10 +89,17 @@ class ObjectBoxExecutor extends BenchmarkExecutor {
   }
 
   List<FruitDtoForObjectBox> mapToObjectBox(List<FruitDto> models) {
-    return models
+    final s = Stopwatch()..start();
+    final result = models
         .map(
           (e) => FruitDtoForObjectBox.fromJson(e.toJson()),
         )
         .toList();
+    s.stop();
+
+    _logger.info(
+      "Objectbox: Mapping list of DTO to FruitDtoForObjectbox finished in ${s.elapsedMilliseconds}ms.",
+    );
+    return result;
   }
 }

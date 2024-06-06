@@ -45,4 +45,6 @@ abstract class BenchmarkExecutor<T> {
   }
 
   Stream<int> insert(List<FruitDto> models);
+
+  Stream<int> bulkInsert(List<FruitDto> models);
 }

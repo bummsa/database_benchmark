@@ -43,19 +43,46 @@ class HiveRunner extends BenchmarkExecutor {
       prepareDb: (db) {
         return prepareDatabase();
       },
+      benchmark: (db) async {
+        final box = await Hive.openBox('testBox');
+
+        for (int i = 0; i < models.length; i++) {
+          await box.put(i, models[i].toJson());
+        }
+
+        return box.close();
+      },
+    );
+  }
+
+  @override
+  Stream<int> bulkInsert(List<FruitDto> models) {
+    return runBenchmark(
+      db: this,
+      prepareDb: (db) {
+        return prepareDatabase();
+      },
       benchmark: (db) {
         return _fillDb(models);
       },
     );
   }
 
+  // fill in "bulk" mode
   Future<void> _fillDb(List<FruitDto> models) async {
     final box = await Hive.openBox('testBox');
 
+    final s = Stopwatch()..start();
+    final map = {};
     for (int i = 0; i < models.length; i++) {
-      await box.put(i, models[i].toJson());
+      map.putIfAbsent(i, () => models[i].toJson());
     }
+    s.stop();
+    _logger.info(
+      "Hive: Mapping list of DTO to Map<int, Map<String, dynamic>> finished in ${s.elapsedMilliseconds}ms.",
+    );
 
+    await box.putAll(map);
     await box.close();
   }
 }

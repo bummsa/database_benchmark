@@ -33,6 +33,8 @@ class BenchmarkRunner {
     switch (benchmark) {
       case BenchmarkType.insert:
         return executor.insert(models);
+      case BenchmarkType.bulkInsert:
+        return executor.bulkInsert(models);
       default:
         return const Stream.empty();
     }

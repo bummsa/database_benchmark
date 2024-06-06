@@ -1,6 +1,7 @@
 enum BenchmarkType {
   get('Get', 'ms'),
   insert('Insert', 'ms'),
+  bulkInsert('Bulk Insert', 'ms'),
   update('Update', 'ms'),
   delete('Delete', 'ms'),
   filterQuery('Filter Query', 'ms'),
