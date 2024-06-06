@@ -4,8 +4,11 @@ import 'package:database_benchmark/benchmark/impl/hive_executor.dart';
 import 'package:database_benchmark/benchmark/impl/objectbox/objectbox_executor.dart';
 import 'package:database_benchmark/database/database.dart';
 import 'package:database_benchmark/models/fruit_dto.dart';
+import 'package:logging/logging.dart';
 
 abstract class BenchmarkExecutor<T> {
+  final logger = Logger("BenchmarkExecutor");
+
   Future<void> prepareDatabase();
 
   Future<void> tearDown();
@@ -15,6 +18,7 @@ abstract class BenchmarkExecutor<T> {
     required FutureOr<void> Function(T db) prepareDb,
     required FutureOr<void> Function(T db) benchmark,
   }) async* {
+    logger.info("Running benchmark for ${db.runtimeType} ...");
     final watch = Stopwatch();
 
     try {
@@ -26,6 +30,7 @@ abstract class BenchmarkExecutor<T> {
       }
       watch.stop();
     } finally {
+      logger.info("Benchmarking for the database ${db.runtimeType} finished! (${watch.elapsedMilliseconds}ms)");
       yield watch.elapsedMilliseconds;
     }
   }

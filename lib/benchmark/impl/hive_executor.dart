@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:database_benchmark/benchmark/benchmark_executor.dart';
-import 'package:database_benchmark/benchmark/benchmark_type.dart';
 import 'package:database_benchmark/models/fruit_dto.dart';
 import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
@@ -17,7 +16,6 @@ class HiveRunner extends BenchmarkExecutor {
     final s = Stopwatch()..start();
 
     final dir = await getApplicationDocumentsDirectory();
-    print("dir=$dir");
     var homePath = path.join(dir.path, 'hive');
     if (await Directory(homePath).exists()) {
       await Directory(homePath).delete(recursive: true);

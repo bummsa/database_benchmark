@@ -1,13 +1,21 @@
+// ignore_for_file: avoid_print
+
 import 'package:database_benchmark/benchmark/benchmark_runner.dart';
 import 'package:database_benchmark/benchmark/benchmark_type.dart';
 import 'package:database_benchmark/database/database.dart';
 import 'package:database_benchmark/ui/result_container.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 
 void main() {
   // This is required so ObjectBox can get the application directory
   // to store the database in.
   WidgetsFlutterBinding.ensureInitialized();
+
+  Logger.root.level = Level.ALL; // defaults to Level.INFO
+  Logger.root.onRecord.listen((record) {
+    print('${record.level.name}: ${record.time}: ${record.message}');
+  });
 
   runApp(const MyApp());
 }

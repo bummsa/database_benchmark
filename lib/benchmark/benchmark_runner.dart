@@ -15,12 +15,12 @@ class BenchmarkRunner {
 
     for (final database in Database.values) {
       final executor = executors[database]!;
-      print("running ${executor.runtimeType}");
       try {
         final resultStream = _runBenchmark(benchmark, executor, models);
         yield* resultStream
             .map((event) => RunnerResult(database, benchmark, event));
       } catch (e) {
+        // ignore: avoid_print
         print("error $e");
       } finally {
         await executor.tearDown();
