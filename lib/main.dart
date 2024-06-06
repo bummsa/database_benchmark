@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final runner = BenchmarkRunner();
   final amountController = TextEditingController(text: '1000');
 
-  BenchmarkType _selectedBenchmark = BenchmarkType.values[0];
+  BenchmarkType _selectedBenchmark = BenchmarkType.values[1];
   bool _isRunning = false;
   final benchmarkResult = <Database, RunnerResult>{};
 

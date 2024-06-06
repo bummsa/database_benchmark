@@ -1,5 +1,6 @@
 enum Database {
-  hive('Hive');
+  hive('Hive'),
+  objectbox('ObjectBox');
 
   final String name;
 

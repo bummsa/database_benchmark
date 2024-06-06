@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:database_benchmark/benchmark/benchmark_executor.dart';
+import 'package:database_benchmark/benchmark/benchmark_type.dart';
 import 'package:database_benchmark/models/fruit_dto.dart';
 import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
-class HiveRunner implements BenchmarkExecutor {
+class HiveRunner extends BenchmarkExecutor {
   final Logger _logger = Logger('HiveRunner');
 
   @override
@@ -38,10 +39,33 @@ class HiveRunner implements BenchmarkExecutor {
   }
 
   @override
-  Stream<int> insert(List<FruitDto> models) async* {
-    await prepareDatabase();
+  Stream<int> insert(List<FruitDto> models) {
+    return runBenchmark(
+      db: this,
+      prepareDb: (db) {
+        return prepareDatabase();
+      },
+      benchmark: (db) {
+        return _fillDb(models);
+      },
+    );
 
-    final watch = Stopwatch()..start();
+    // await prepareDatabase();
+
+    // final watch = Stopwatch()..start();
+    // final box = await Hive.openBox('testBox');
+
+    // for (int i = 0; i < models.length; i++) {
+    //   await box.put(i, models[i].toJson());
+    // }
+
+    // await box.close();
+    // watch.stop();
+
+    // yield watch.elapsedMilliseconds;
+  }
+
+  Future<void> _fillDb(List<FruitDto> models) async {
     final box = await Hive.openBox('testBox');
 
     for (int i = 0; i < models.length; i++) {
@@ -49,8 +73,5 @@ class HiveRunner implements BenchmarkExecutor {
     }
 
     await box.close();
-    watch.stop();
-
-    yield watch.elapsedMilliseconds;
   }
 }
