@@ -120,10 +120,13 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 15,
             ),
-            ElevatedButton(
-              onPressed: _isRunning ? null : _runBenchmark,
-              child: const Text('LET\'S GO!'),
-            ),
+            if (_isRunning)
+              const CircularProgressIndicator()
+            else
+              ElevatedButton(
+                onPressed: _isRunning ? null : _runBenchmark,
+                child: const Text('LET\'S GO!'),
+              ),
             const SizedBox(
               height: 15,
             ),

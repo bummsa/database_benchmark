@@ -26,6 +26,7 @@ dependencies:
 
   # realm
   realm: 2.3.0
+  sembast: ^3.7.1
   
 dev_dependencies:
   flutter_test:
