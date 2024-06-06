@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:database_benchmark/benchmark/impl/hive_executor.dart';
+import 'package:database_benchmark/benchmark/impl/hive/hive_executor.dart';
 import 'package:database_benchmark/benchmark/impl/objectbox/objectbox_executor.dart';
 import 'package:database_benchmark/benchmark/impl/sambast/sembast_executor.dart';
 import 'package:database_benchmark/database/database.dart';
@@ -51,4 +51,6 @@ abstract class BenchmarkExecutor<T> {
   Stream<int> insert(List<FruitDto> models);
 
   Stream<int> bulkInsert(List<FruitDto> models);
+
+  Stream<int> get(List<FruitDto> models);
 }

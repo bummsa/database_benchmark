@@ -41,8 +41,11 @@ class ObjectBoxExecutor extends BenchmarkExecutor {
   @override
   Future<void> tearDown() async {
     _logger.info("Teardown ObjectBox DB ...");
-    _fruitBox?.removeAll();
-    _store?.close();
+
+    if (_store != null && !_store!.isClosed()) {
+      _fruitBox?.removeAll();
+      _store?.close();
+    }
     _logger.info("Teardown ObjectBox DB done!");
   }
 
@@ -73,7 +76,29 @@ class ObjectBoxExecutor extends BenchmarkExecutor {
       },
       benchmark: (db) async {
         _fruitBox!.putMany(mapToObjectBox(models));
+        _store?.close();
+        return Future.value();
+      },
+    );
+  }
 
+  @override
+  Stream<int> get(List<FruitDto> models) {
+    return runBenchmark(
+      db: this,
+      prepareDb: (db) async {
+        await prepareDatabase();
+
+        _fruitBox!.putMany(mapToObjectBox(models));
+      },
+      benchmark: (db) async {
+        final all = _fruitBox?.getAll() ?? [];
+        _logger.info("ObjectBox: Found ${all.length} entries");
+
+        _store?.close();
+        if (all.length != models.length) {
+          throw Exception("ObjectBox: Cannot get all values");
+        }
         return Future.value();
       },
     );

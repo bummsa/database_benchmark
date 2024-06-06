@@ -58,4 +58,26 @@ class SembastExecutor extends BenchmarkExecutor {
       },
     );
   }
+
+  @override
+  Stream<int> get(List<FruitDto> models) {
+    return runBenchmark(
+      db: this,
+      prepareDb: (db) async {
+        await prepareDatabase();
+        await _fillDb(models);
+      },
+      benchmark: (db) async {
+        final records = await _store.find(dbClient);
+        if (records.length != models.length) {
+          throw Exception("Sembast: Cannot get all values");
+        }
+      },
+    );
+  }
+
+  Future<void> _fillDb(List<FruitDto> models) {
+    final entries = models.map((record) => record.toJson()).toList();
+    return _store.addAll(dbClient, entries);
+  }
 }

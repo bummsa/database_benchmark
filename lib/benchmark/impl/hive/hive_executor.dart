@@ -9,6 +9,7 @@ import 'package:path/path.dart' as path;
 
 class HiveRunner extends BenchmarkExecutor {
   final Logger _logger = Logger('HiveRunner');
+  final String _boxName = "testBox";
 
   @override
   Future<void> prepareDatabase() async {
@@ -31,7 +32,7 @@ class HiveRunner extends BenchmarkExecutor {
   @override
   Future<void> tearDown() async {
     _logger.info("Teardown Hive DB ...");
-    await (await Hive.openBox('testBox')).clear();
+    await (await Hive.openBox(_boxName)).clear();
     await Hive.close();
     _logger.info("Teardown Hive DB done!");
   }
@@ -44,7 +45,7 @@ class HiveRunner extends BenchmarkExecutor {
         return prepareDatabase();
       },
       benchmark: (db) async {
-        final box = await Hive.openBox('testBox');
+        final box = await Hive.openBox(_boxName);
 
         for (int i = 0; i < models.length; i++) {
           await box.put(i, models[i].toJson());
@@ -68,9 +69,30 @@ class HiveRunner extends BenchmarkExecutor {
     );
   }
 
+  @override
+  Stream<int> get(List<FruitDto> models) {
+    return runBenchmark(
+      db: this,
+      prepareDb: (db) async {
+        await prepareDatabase();
+        return _fillDb(models);
+      },
+      benchmark: (db) async {
+        final box = await Hive.openBox(_boxName);
+        final all = box.values.toList();
+        _logger.info("ObjectBox: Found ${all.length} entries");
+
+        await Hive.close();
+        if (all.length != models.length) {
+          throw Exception("Hive: Cannot get all values");
+        }
+      },
+    );
+  }
+
   // fill in "bulk" mode
   Future<void> _fillDb(List<FruitDto> models) async {
-    final box = await Hive.openBox('testBox');
+    final box = await Hive.openBox(_boxName);
 
     final s = Stopwatch()..start();
     final map = {};
