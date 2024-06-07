@@ -15,6 +15,9 @@ abstract class Dto {
   /// userId is set when the table.put method is called with the logged-in userId
   int? userId;
 
+  // evtl. als mixin damit es nicht für alle DTOs sind 
+  int? version;
+
   Dto({this.containerId, this.noI, this.entityTag});
 
   Map<String, dynamic> toJson() {

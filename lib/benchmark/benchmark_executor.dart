@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:database_benchmark/benchmark/impl/hive/hive_executor.dart';
 import 'package:database_benchmark/benchmark/impl/objectbox/objectbox_executor.dart';
+import 'package:database_benchmark/benchmark/impl/realm/realm_executor.dart';
 import 'package:database_benchmark/benchmark/impl/sambast/sembast_executor.dart';
 import 'package:database_benchmark/database/database.dart';
 import 'package:database_benchmark/models/fruit_dto.dart';
@@ -45,6 +46,8 @@ abstract class BenchmarkExecutor<T> {
         return ObjectBoxExecutor();
       case Database.sembast:
         return SembastExecutor();
+      case Database.realm:
+        return RealmExecutor();
     }
   }
 

@@ -1,7 +1,8 @@
 enum Database {
   hive('Hive'),
   objectbox('ObjectBox'),
-  sembast('Sembast');
+  sembast('Sembast'),
+  realm('Realm');
 
   final String name;
 

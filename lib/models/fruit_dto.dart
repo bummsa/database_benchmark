@@ -39,6 +39,7 @@ class FruitDto extends Dto {
 
     for (int i = 0; i < count; i++) {
       final dto = FruitDto(
+        id: i,
         name: 'name$i',
         shape: "shape$i",
         description: descriptions,
