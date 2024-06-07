@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'fruit_dto_for_objectbox.dart';
+part of 'second_dto_for_objectbox.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-FruitDtoForObjectBox _$FruitDtoForObjectBoxFromJson(
+SecondDtoForObjectBox _$SecondDtoForObjectBoxFromJson(
         Map<String, dynamic> json) =>
-    FruitDtoForObjectBox(
+    SecondDtoForObjectBox(
       id: (json['id'] as num?)?.toInt() ?? 0,
       entityTag: json['entityTag'] == null
           ? null
@@ -25,12 +25,10 @@ FruitDtoForObjectBox _$FruitDtoForObjectBoxFromJson(
       ..containerId = (json['containerId'] as num?)?.toInt()
       ..noI = (json['noI'] as num?)?.toInt()
       ..userId = (json['userId'] as num?)?.toInt()
-      ..version = (json['version'] as num?)?.toInt()
-      ..secondDto = SecondDtoForObjectBox.fromJson(
-          json['secondDto'] as Map<String, dynamic>);
+      ..version = (json['version'] as num?)?.toInt();
 
-Map<String, dynamic> _$FruitDtoForObjectBoxToJson(
-        FruitDtoForObjectBox instance) =>
+Map<String, dynamic> _$SecondDtoForObjectBoxToJson(
+        SecondDtoForObjectBox instance) =>
     <String, dynamic>{
       'containerId': instance.containerId,
       'noI': instance.noI,
@@ -44,5 +42,4 @@ Map<String, dynamic> _$FruitDtoForObjectBoxToJson(
       'description': instance.description,
       'amount': instance.amount,
       'available': instance.available,
-      'secondDto': instance.secondDto,
     };

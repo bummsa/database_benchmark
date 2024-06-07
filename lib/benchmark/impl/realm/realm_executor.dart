@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:database_benchmark/benchmark/benchmark_executor.dart';
 import 'package:database_benchmark/benchmark/impl/realm/fruit_dto_for_realm.dart';
+import 'package:database_benchmark/benchmark/impl/realm/second_dto_for_realm.dart';
 import 'package:database_benchmark/models/fruit_dto.dart';
+import 'package:database_benchmark/models/second_dto.dart';
 import 'package:realm/realm.dart';
 
 import 'package:logging/logging.dart';
@@ -143,11 +145,35 @@ class RealmExecutor extends BenchmarkExecutor {
       description: realmModel.description,
       amount: realmModel.amount,
       available: realmModel.available,
+      secondDto: realmToSecondDto(realmModel.secondDto!),
+    );
+  }
+
+  SecondDto realmToSecondDto(SecondDtoForRealm realmModel) {
+    return SecondDto(
+      id: realmModel.id,
+      name: realmModel.name,
+      shape: realmModel.shape,
+      color: realmModel.color,
+      description: realmModel.description,
+      amount: realmModel.amount,
+      available: realmModel.available,
     );
   }
 
   FruitDtoForRealm modelToRealm(FruitDto model) {
     return FruitDtoForRealm(
+        description: RealmList(model.description),
+        model.containerId!,
+        model.name,
+        model.shape,
+        model.color,
+        model.amount,
+        model.available,);
+  }
+
+  SecondDtoForRealm modelToSecondRealm(SecondDto model) {
+    return SecondDtoForRealm(
         description: RealmList(model.description),
         model.containerId!,
         model.name,

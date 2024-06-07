@@ -15,6 +15,7 @@ import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'benchmark/impl/objectbox/fruit_dto_for_objectbox.dart';
+import 'benchmark/impl/objectbox/second_dto_for_objectbox.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -62,6 +63,50 @@ final _entities = <obx_int.ModelEntity>[
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(2, 220319208913116618),
+      name: 'SecondDtoForObjectBox',
+      lastPropertyId: const obx_int.IdUid(7, 7498915661720234287),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 6288148356898472213),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 9082167241371118423),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 8347260550539406835),
+            name: 'shape',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 7212475715776241569),
+            name: 'color',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 8771623115734773478),
+            name: 'description',
+            type: 30,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 945295201324414908),
+            name: 'amount',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 7498915661720234287),
+            name: 'available',
+            type: 1,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
 ];
 
@@ -100,7 +145,7 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(1, 5105430209492763497),
+      lastEntityId: const obx_int.IdUid(2, 220319208913116618),
       lastIndexId: const obx_int.IdUid(0, 0),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
@@ -167,6 +212,61 @@ obx_int.ModelDefinition getObjectBoxModel() {
               color: colorParam);
 
           return object;
+        }),
+    SecondDtoForObjectBox: obx_int.EntityDefinition<SecondDtoForObjectBox>(
+        model: _entities[1],
+        toOneRelations: (SecondDtoForObjectBox object) => [],
+        toManyRelations: (SecondDtoForObjectBox object) => {},
+        getId: (SecondDtoForObjectBox object) => object.id,
+        setId: (SecondDtoForObjectBox object, int id) {
+          object.id = id;
+        },
+        objectToFB: (SecondDtoForObjectBox object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          final shapeOffset = fbb.writeString(object.shape);
+          final colorOffset = fbb.writeString(object.color);
+          final descriptionOffset = fbb.writeList(
+              object.description.map(fbb.writeString).toList(growable: false));
+          fbb.startTable(8);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, nameOffset);
+          fbb.addOffset(2, shapeOffset);
+          fbb.addOffset(3, colorOffset);
+          fbb.addOffset(4, descriptionOffset);
+          fbb.addInt64(5, object.amount);
+          fbb.addBool(6, object.available);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final shapeParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final descriptionParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGet(buffer, rootOffset, 12, []);
+          final amountParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
+          final availableParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 16, false);
+          final colorParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final object = SecondDtoForObjectBox(
+              id: idParam,
+              name: nameParam,
+              shape: shapeParam,
+              description: descriptionParam,
+              amount: amountParam,
+              available: availableParam,
+              color: colorParam);
+
+          return object;
         })
   };
 
@@ -203,4 +303,36 @@ class FruitDtoForObjectBox_ {
   /// See [FruitDtoForObjectBox.available].
   static final available = obx.QueryBooleanProperty<FruitDtoForObjectBox>(
       _entities[0].properties[6]);
+}
+
+/// [SecondDtoForObjectBox] entity fields to define ObjectBox queries.
+class SecondDtoForObjectBox_ {
+  /// See [SecondDtoForObjectBox.id].
+  static final id = obx.QueryIntegerProperty<SecondDtoForObjectBox>(
+      _entities[1].properties[0]);
+
+  /// See [SecondDtoForObjectBox.name].
+  static final name = obx.QueryStringProperty<SecondDtoForObjectBox>(
+      _entities[1].properties[1]);
+
+  /// See [SecondDtoForObjectBox.shape].
+  static final shape = obx.QueryStringProperty<SecondDtoForObjectBox>(
+      _entities[1].properties[2]);
+
+  /// See [SecondDtoForObjectBox.color].
+  static final color = obx.QueryStringProperty<SecondDtoForObjectBox>(
+      _entities[1].properties[3]);
+
+  /// See [SecondDtoForObjectBox.description].
+  static final description =
+      obx.QueryStringVectorProperty<SecondDtoForObjectBox>(
+          _entities[1].properties[4]);
+
+  /// See [SecondDtoForObjectBox.amount].
+  static final amount = obx.QueryIntegerProperty<SecondDtoForObjectBox>(
+      _entities[1].properties[5]);
+
+  /// See [SecondDtoForObjectBox.available].
+  static final available = obx.QueryBooleanProperty<SecondDtoForObjectBox>(
+      _entities[1].properties[6]);
 }

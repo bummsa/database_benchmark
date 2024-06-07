@@ -1,15 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'fruit_dto_for_realm.dart';
+part of 'second_dto_for_realm.dart';
 
 // **************************************************************************
 // RealmObjectGenerator
 // **************************************************************************
 
 // ignore_for_file: type=lint
-class FruitDtoForRealm extends _FruitDtoForRealm
+class SecondDtoForRealm extends $SecondDtoForRealm
     with RealmEntity, RealmObjectBase, RealmObject {
-  FruitDtoForRealm(
+  SecondDtoForRealm(
     int id,
     String name,
     String shape,
@@ -17,7 +17,6 @@ class FruitDtoForRealm extends _FruitDtoForRealm
     int amount,
     bool available, {
     Iterable<String> description = const [],
-    SecondDtoForRealm? secondDto,
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
@@ -27,10 +26,9 @@ class FruitDtoForRealm extends _FruitDtoForRealm
         this, 'description', RealmList<String>(description));
     RealmObjectBase.set(this, 'amount', amount);
     RealmObjectBase.set(this, 'available', available);
-    RealmObjectBase.set(this, 'secondDto', secondDto);
   }
 
-  FruitDtoForRealm._();
+  SecondDtoForRealm._();
 
   @override
   int get id => RealmObjectBase.get<int>(this, 'id') as int;
@@ -70,25 +68,17 @@ class FruitDtoForRealm extends _FruitDtoForRealm
   set available(bool value) => RealmObjectBase.set(this, 'available', value);
 
   @override
-  SecondDtoForRealm? get secondDto =>
-      RealmObjectBase.get<SecondDtoForRealm>(this, 'secondDto')
-          as SecondDtoForRealm?;
-  @override
-  set secondDto(covariant SecondDtoForRealm? value) =>
-      RealmObjectBase.set(this, 'secondDto', value);
+  Stream<RealmObjectChanges<SecondDtoForRealm>> get changes =>
+      RealmObjectBase.getChanges<SecondDtoForRealm>(this);
 
   @override
-  Stream<RealmObjectChanges<FruitDtoForRealm>> get changes =>
-      RealmObjectBase.getChanges<FruitDtoForRealm>(this);
-
-  @override
-  Stream<RealmObjectChanges<FruitDtoForRealm>> changesFor(
+  Stream<RealmObjectChanges<SecondDtoForRealm>> changesFor(
           [List<String>? keyPaths]) =>
-      RealmObjectBase.getChangesFor<FruitDtoForRealm>(this, keyPaths);
+      RealmObjectBase.getChangesFor<SecondDtoForRealm>(this, keyPaths);
 
   @override
-  FruitDtoForRealm freeze() =>
-      RealmObjectBase.freezeObject<FruitDtoForRealm>(this);
+  SecondDtoForRealm freeze() =>
+      RealmObjectBase.freezeObject<SecondDtoForRealm>(this);
 
   EJsonValue toEJson() {
     return <String, dynamic>{
@@ -99,12 +89,11 @@ class FruitDtoForRealm extends _FruitDtoForRealm
       'description': description.toEJson(),
       'amount': amount.toEJson(),
       'available': available.toEJson(),
-      'secondDto': secondDto.toEJson(),
     };
   }
 
-  static EJsonValue _toEJson(FruitDtoForRealm value) => value.toEJson();
-  static FruitDtoForRealm _fromEJson(EJsonValue ejson) {
+  static EJsonValue _toEJson(SecondDtoForRealm value) => value.toEJson();
+  static SecondDtoForRealm _fromEJson(EJsonValue ejson) {
     return switch (ejson) {
       {
         'id': EJsonValue id,
@@ -114,9 +103,8 @@ class FruitDtoForRealm extends _FruitDtoForRealm
         'description': EJsonValue description,
         'amount': EJsonValue amount,
         'available': EJsonValue available,
-        'secondDto': EJsonValue secondDto,
       } =>
-        FruitDtoForRealm(
+        SecondDtoForRealm(
           fromEJson(id),
           fromEJson(name),
           fromEJson(shape),
@@ -124,17 +112,16 @@ class FruitDtoForRealm extends _FruitDtoForRealm
           fromEJson(amount),
           fromEJson(available),
           description: fromEJson(description),
-          secondDto: fromEJson(secondDto),
         ),
       _ => raiseInvalidEJson(ejson),
     };
   }
 
   static final schema = () {
-    RealmObjectBase.registerFactory(FruitDtoForRealm._);
+    RealmObjectBase.registerFactory(SecondDtoForRealm._);
     register(_toEJson, _fromEJson);
     return SchemaObject(
-        ObjectType.realmObject, FruitDtoForRealm, 'FruitDtoForRealm', [
+        ObjectType.realmObject, SecondDtoForRealm, 'SecondDtoForRealm', [
       SchemaProperty('id', RealmPropertyType.int, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
       SchemaProperty('shape', RealmPropertyType.string),
@@ -143,8 +130,6 @@ class FruitDtoForRealm extends _FruitDtoForRealm
           collectionType: RealmCollectionType.list),
       SchemaProperty('amount', RealmPropertyType.int),
       SchemaProperty('available', RealmPropertyType.bool),
-      SchemaProperty('secondDto', RealmPropertyType.object,
-          optional: true, linkTarget: 'SecondDtoForRealm'),
     ]);
   }();
 

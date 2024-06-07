@@ -17,21 +17,25 @@ FruitDto _$FruitDtoFromJson(Map<String, dynamic> json) => FruitDto(
           .toList(),
       amount: (json['amount'] as num).toInt(),
       available: json['available'] as bool,
+      secondDto: SecondDto.fromJson(json['secondDto'] as Map<String, dynamic>),
       color: json['color'] as String? ?? '',
     )
       ..containerId = (json['containerId'] as num?)?.toInt()
       ..noI = (json['noI'] as num?)?.toInt()
-      ..userId = (json['userId'] as num?)?.toInt();
+      ..userId = (json['userId'] as num?)?.toInt()
+      ..version = (json['version'] as num?)?.toInt();
 
 Map<String, dynamic> _$FruitDtoToJson(FruitDto instance) => <String, dynamic>{
       'containerId': instance.containerId,
       'noI': instance.noI,
       'entityTag': instance.entityTag,
       'userId': instance.userId,
+      'version': instance.version,
       'name': instance.name,
       'shape': instance.shape,
       'color': instance.color,
       'description': instance.description,
       'amount': instance.amount,
       'available': instance.available,
+      'secondDto': instance.secondDto,
     };

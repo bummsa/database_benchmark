@@ -46,9 +46,53 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "2:220319208913116618",
+      "lastPropertyId": "7:7498915661720234287",
+      "name": "SecondDtoForObjectBox",
+      "properties": [
+        {
+          "id": "1:6288148356898472213",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:9082167241371118423",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:8347260550539406835",
+          "name": "shape",
+          "type": 9
+        },
+        {
+          "id": "4:7212475715776241569",
+          "name": "color",
+          "type": 9
+        },
+        {
+          "id": "5:8771623115734773478",
+          "name": "description",
+          "type": 30
+        },
+        {
+          "id": "6:945295201324414908",
+          "name": "amount",
+          "type": 6
+        },
+        {
+          "id": "7:7498915661720234287",
+          "name": "available",
+          "type": 1
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:5105430209492763497",
+  "lastEntityId": "2:220319208913116618",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
